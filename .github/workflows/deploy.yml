@@ -21,14 +21,14 @@ jobs:
       shell: pwsh
       run: |
         # env
-        $subscriptionId="${{ secrets.SUBSCRIPTIONID2 }}"
+        $subscriptionId="${{ secrets.SUBSCRIPTIONID }}"
         $ResourceGroup="${{ vars.ResourceGroup }}"
         $location="${{ vars.Location }}"
         $Enviorment="worpress-containerapps"
 
        
         # Login to Azure
-        az login --service-principal -u ${{ secrets.APPLICATIONID2 }} -p ${{ secrets.SECRET2 }} --tenant ${{ secrets.TENANTID2 }}
+        az login --service-principal -u ${{ secrets.APPLICATIONID }} -p ${{ secrets.SECRET }} --tenant ${{ secrets.TENANTID }}
         
         # Set the subscription context
         az account set --subscription $subscriptionId
