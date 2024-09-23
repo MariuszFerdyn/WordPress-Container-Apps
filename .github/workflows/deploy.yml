@@ -50,3 +50,5 @@ jobs:
 
         # you cannot configure the ingress controller in details for Azure Container Apps directly via a Docker Compose file. Instead, ingress settings must be configured using the Azure CLI.
         az containerapp ingress enable --name "db007" --resource-group $ResourceGroup --target-port 3306 --exposed-port 3306 --transport tcp --type internal
+
+        # Add a persistant storage to DB container - https://learn.microsoft.com/en-us/azure/container-apps/storage-mounts-azure-files?tabs=bash
