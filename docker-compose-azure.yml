@@ -13,20 +13,29 @@ services:
        WORDPRESS_DB_HOST: db007:3306
        WORDPRESS_DB_USER: wordpress
        WORDPRESS_DB_PASSWORD: my_wordpress_db_password
-     networks:
-      - internal_network
 
    db007:
      image: mariadb
      volumes:
        - ./db_data007:/var/lib/mysql
+     ports:
+       - "3306:3306"
      environment:
        MYSQL_ROOT_PASSWORD: my_db_root_password
        MYSQL_DATABASE: wordpress
        MYSQL_USER: wordpress
        MYSQL_PASSWORD: my_wordpress_db_password
-     networks:
-      - internal_network
+     deploy:
+       resources:
+         limits:
+           cpu: "0.5"
+           memory: "512M"
+       replicas: 1
+     ingress:
+       enabled: true  # Enable ingress for this service
+       targetPort: 3306  # The port on which the service is listening
+       protocol: TCP  # Specify TCP protocol
+
 volumes:
     wp_data007:
         external: true
