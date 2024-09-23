@@ -35,6 +35,8 @@ services:
        enabled: true  # Enable ingress for this service
        targetPort: 3306  # The port on which the service is listening
        protocol: TCP  # Specify TCP protocol
+       external: false
+       transport: TCP
 
 volumes:
     wp_data007:
