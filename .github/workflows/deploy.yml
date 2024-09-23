@@ -49,4 +49,4 @@ jobs:
         az containerapp compose create -g $ResourceGroup --environment $Enviorment --compose-file-path "docker-compose-azure.yml"
 
         # you cannot configure the ingress controller in details for Azure Container Apps directly via a Docker Compose file. Instead, ingress settings must be configured using the Azure CLI.
-        #az containerapp ingress enable --name "db007" --resource-group $ResourceGroup --target-port 3306 --exposed-port 3306 --transport tcp --type internal
+        az containerapp ingress enable --name "db007" --resource-group $ResourceGroup --target-port 3306 --exposed-port 3306 --transport tcp --type internal
