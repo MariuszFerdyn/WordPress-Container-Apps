@@ -86,7 +86,7 @@ jobs:
         "@
         
         # Replace the "volumes": null line with the new volumes section
-        $fileContent = $fileContent -replace '"volumes": null', $newVolumesSection
+        $fileContent = $fileContent -replace '\s*"volumes":\s*null', $newVolumesSection
         
         # Write the updated content back to the file
         Set-Content -Path $filePath -Value $fileContent
