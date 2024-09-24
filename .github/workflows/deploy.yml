@@ -80,9 +80,9 @@ jobs:
         # Define the new volumes section
         $newVolumesSection = @"
           volumes:
-          - name: $STORAGE_MOUNT_NAME
-            storageName: $STORAGE_MOUNT_NAME
-            storageType: $STORAGE_ACCOUNT_NAME
+          - name: xxx
+            storageName: yyy
+            storageType: zzz
         "@
         
         # Replace the "volumes": null line with the new volumes section
