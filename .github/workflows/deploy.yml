@@ -66,8 +66,34 @@ jobs:
         az containerapp env storage set --access-mode ReadWrite --azure-file-account-name $STORAGE_ACCOUNT_NAME --azure-file-account-key $STORAGE_ACCOUNT_KEY --azure-file-share-name $STORAGE_SHARE_NAME --storage-name $STORAGE_MOUNT_NAME --name $Enviorment --resource-group $ResourceGroup --output table
         $CONTAINER_APP_NAME="db007"
         az containerapp show --name $CONTAINER_APP_NAME --resource-group $ResourceGroup --output yaml > app.yaml
+        Write-Host "----- app.yaml Orginal -----"
         Get-Content -Path "app.yaml"
+        Write-Host "----------------------------"
 
+        # Modify the app.yaml file to include the storage mount
+        
+        $filePath = "app.yaml"
+        
+        # Read the contents of the file
+        $fileContent = Get-Content -Path $filePath
+        
+        # Define the new volumes section
+        $newVolumesSection = @"
+          volumes:
+          - name: $STORAGE_MOUNT_NAME
+            storageName: $STORAGE_MOUNT_NAME
+            storageType: $STORAGE_ACCOUNT_NAME
+        "@
+        
+        # Replace the "volumes": null line with the new volumes section
+        $fileContent = $fileContent -replace '"volumes": null', $newVolumesSection
+        
+        # Write the updated content back to the file
+        Set-Content -Path $filePath -Value $fileContent
+
+        Write-Host "------- app.yaml New -------"
+        Get-Content -Path "app.yaml"
+        Write-Host "----------------------------"
 
 
 
