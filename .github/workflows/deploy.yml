@@ -100,7 +100,7 @@ jobs:
         $fileContent = $fileContent -replace 'containers:', $newVolumesSection
 
         # Write the updated content back to the file
-        #### Set-Content -Path $filePath -Value $fileContent
+        Set-Content -Path $filePath -Value $fileContent
 
         Write-Host "------- app.yaml New -------"
         Get-Content -Path "app.yaml"
