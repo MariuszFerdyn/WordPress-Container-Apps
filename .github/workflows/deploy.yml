@@ -88,9 +88,6 @@ jobs:
         # Replace the "volumes": null line with the new volumes section
         $fileContent = $fileContent -replace 'volumes: null', $newVolumesSection
         
-        # Write the updated content back to the file
-        Set-Content -Path $filePath -Value $fileContent
-
         # Define the new volumes section for container
         $newVolumesSection = @"
         containers:
@@ -102,12 +99,15 @@ jobs:
         # Replace the volumes section for container
         $fileContent = $fileContent -replace 'containers:', $newVolumesSection
 
+        # Write the updated content back to the file
+        Set-Content -Path $filePath -Value $fileContent
+
         Write-Host "------- app.yaml New -------"
         Get-Content -Path "app.yaml"
         Write-Host "----------------------------"
 
         # Update the container app with the modified app.yaml file
-        az containerapp update --name $CONTAINER_APP_NAME --resource-group $RESOURCE_GROUP --yaml app.yaml --output table
+        az containerapp update --name $CONTAINER_APP_NAME --resource-group $ResourceGroup --yaml app.yaml --output table
 
 
 
