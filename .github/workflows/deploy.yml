@@ -159,3 +159,10 @@ jobs:
 
         # Update the container app with the modified app2.yaml file
         az containerapp update --name $CONTAINER_APP_NAME --resource-group $ResourceGroup --yaml app2.yaml --output table
+
+
+        # The DB in container is not recommended without operator, but in COntainer Apps we have MariaDB addin
+        $PG_SVC="MariaDB"
+        az containerapp add-on mariadb create --name "$PG_SVC" --resource-group $ResourceGroup --environment $Enviorment
+        Sleep(30)
+        az containerapp logs show --name $PG_SVC --resource-group $ResourceGroup --tail 80
