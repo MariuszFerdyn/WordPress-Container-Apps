@@ -141,14 +141,14 @@ jobs:
         
         # Define the new volumes section for container
         $newVolumesSection = @"
-        image: mariadb
+        image: wordpress:latest
               volumeMounts:
               - volumeName: $STORAGE_MOUNT_NAME
                 mountPath: /var/www/html/wp-content
         "@
 
         # Replace the volumes section for container
-        $fileContent = $fileContent -replace 'image: mariadb', $newVolumesSection
+        $fileContent = $fileContent -replace 'image: wordpress:latest', $newVolumesSection
 
         # Write the updated content back to the file
         Set-Content -Path $filePath -Value $fileContent
