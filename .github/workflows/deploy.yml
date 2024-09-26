@@ -81,7 +81,7 @@ jobs:
         $newVolumesSection = @"
         volumes:
             - name: $STORAGE_MOUNT_NAME
-              storageName: $STORAGE_ACCOUNT_NAME
+              storageName: $STORAGE_MOUNT_NAME
               storageType: AzureFile
         "@
         
@@ -90,14 +90,14 @@ jobs:
         
         # Define the new volumes section for container
         $newVolumesSection = @"
-        containers:
-            volumeMounts:
-            - volumeName: $STORAGE_MOUNT_NAME
-              mountPath: /var/lib/mysql
+        image: mariadb
+              volumeMounts:
+              - volumeName: $STORAGE_MOUNT_NAME
+                mountPath: /var/lib/mysql
         "@
 
         # Replace the volumes section for container
-        $fileContent = $fileContent -replace 'containers:', $newVolumesSection
+        $fileContent = $fileContent -replace 'image: mariadb', $newVolumesSection
 
         # Write the updated content back to the file
         Set-Content -Path $filePath -Value $fileContent
