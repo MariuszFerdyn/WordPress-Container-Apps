@@ -1,0 +1,49 @@
+name: Deploy WordPress in Container Apps
+
+on:
+  workflow_dispatch
+
+jobs:
+  build:
+    runs-on: windows-2019
+
+    steps:
+    - uses: actions/checkout@v2
+    
+    - name: 'Navigate to Workspace'
+      run: cd $GITHUB_WORKSPACE
+
+    - name: 'Zip ARM directory'
+      run: |
+        cd ARM
+        zip -r ../app.zip .
+        cd ..
+        dir
+
+    - name: 'Build Container Apps'
+      shell: pwsh
+      run: |
+        # env
+        $subscriptionId="${{ secrets.SUBSCRIPTIONID }}"
+        $ResourceGroup="${{ vars.ResourceGroup }}"+"-rgmanagedapp"
+        $location="${{ vars.Location }}"
+        $Enviorment="worpress-containerapps"
+        $StorageAccountName=
+
+       
+        # Login to Azure
+        az login --service-principal -u ${{ secrets.APPLICATIONID }} -p ${{ secrets.SECRET }} --tenant ${{ secrets.TENANTID }}
+        
+        # Set the subscription context
+        az account set --subscription $subscriptionId
+        
+        # Create a new resource group for the gallery if it doesn't exist
+        az group create --name $ResourceGroup --location $location
+        
+        // create variable storageaccountname with random string contains 10 characters starting with managedapp
+        $StorageAccountName = "managedapp" + (Get-Random -Minimum 1000000000 -Maximum 9999999999)
+        az storage account create --name $StorageAccountName --resource-group $ResourceGroup= --location $location --sku Standard_LRS --kind StorageV2
+
+        az storage container create --account-name $StorageAccountName --name  --public-access blob
+
+

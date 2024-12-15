@@ -23,6 +23,7 @@
         },
         "storageAccountName": {
             "type": "string",
+            "defaultValue": "[format('store{0}', uniqueString(resourceGroup().id))]",
             "metadata": {
                 "description": "Storage account name"
             }
@@ -133,9 +134,16 @@
                         }
                     ],
                     "ingress": {
-                        "external": true,
-                        "targetPort": 80,
-                        "transport": "auto"
+                        "external": false,
+                        "targetPort": 3306,
+                        "exposedPort": 3306,
+                        "transport": "Tcp",
+                        "traffic": [
+                            {
+                                "weight": 100,
+                                "latestRevision": true
+                            }
+                        ]
                     }
                 },
                 "template": {
@@ -151,11 +159,19 @@
                                 {
                                     "name": "MYSQL_DATABASE",
                                     "value": "wordpress"
+                                },
+                                {
+                                    "name": "MYSQL_USER",
+                                    "value": "wordpress"
+                                },
+                                {
+                                    "name": "MYSQL_PASSWORD",
+                                    "secretRef": "mysql-root-password"
                                 }
                             ],
                             "resources": {
-                                "cpu": "1",
-                                "memory": "2Gi"
+                                "cpu": "0.5",
+                                "memory": "1Gi"
                             },
                             "volumeMounts": [
                                 {
@@ -173,7 +189,7 @@
                         }
                     ],
                     "scale": {
-                        "minReplicas": 1,
+                        "minReplicas": 0,
                         "maxReplicas": 1
                     }
                 }
@@ -212,11 +228,11 @@
                             "env": [
                                 {
                                     "name": "WORDPRESS_DB_HOST",
-                                    "value": "[concat(variables('dbAppName'), '.internal.', parameters('environmentName'), '.azurecontainerapps.io')]"
+                                    "value": "[concat(variables('dbAppName'))]"
                                 },
                                 {
                                     "name": "WORDPRESS_DB_USER",
-                                    "value": "root"
+                                    "value": "wordpress"
                                 },
                                 {
                                     "name": "WORDPRESS_DB_PASSWORD",
@@ -228,8 +244,8 @@
                                 }
                             ],
                             "resources": {
-                                "cpu": "1",
-                                "memory": "2Gi"
+                                "cpu": "0.5",
+                                "memory": "1Gi"
                             },
                             "volumeMounts": [
                                 {
@@ -247,7 +263,7 @@
                         }
                     ],
                     "scale": {
-                        "minReplicas": 1,
+                        "minReplicas": 0,
                         "maxReplicas": 1
                     }
                 }

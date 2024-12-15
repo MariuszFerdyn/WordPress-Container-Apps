@@ -1,0 +1,92 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/0.1.2-preview/CreateUIDefinition.MultiVm.json#",
+    "handler": "Microsoft.Azure.CreateUIDef",
+    "version": "0.1.2-preview",
+    "parameters": {
+        "basics": [
+            {
+                "name": "environmentName",
+                "type": "Microsoft.Common.TextBox",
+                "label": "Container Apps Environment Name",
+                "defaultValue": "",
+                "toolTip": "Name of the Container Apps Environment",
+                "constraints": {
+                    "required": true,
+                    "regex": "^[a-z0-9A-Z-]{3,24}$",
+                    "validationMessage": "Environment name must be between 3 and 24 characters long and can contain alphanumeric characters and hyphens."
+                }
+            }
+        ],
+        "steps": [
+            {
+                "name": "infrastructure",
+                "label": "Infrastructure Settings",
+                "elements": [
+                    {
+                        "name": "storageAccountSection",
+                        "type": "Microsoft.Common.Section",
+                        "label": "Storage Account Configuration",
+                        "elements": [
+                            {
+                                "name": "storageAccountName",
+                                "type": "Microsoft.Common.TextBox",
+                                "label": "Storage Account Name",
+                                "defaultValue": "",
+                                "toolTip": "Name of the storage account for WordPress files and database",
+                                "constraints": {
+                                    "required": true,
+                                    "regex": "^[a-z0-9]{3,24}$",
+                                    "validationMessage": "Storage account name must be between 3 and 24 characters long and can only contain lowercase letters and numbers."
+                                }
+                            }
+                        ]
+                    },
+                    {
+                        "name": "databaseSection",
+                        "type": "Microsoft.Common.Section",
+                        "label": "Database Configuration",
+                        "elements": [
+                            {
+                                "name": "mysqlRootPassword",
+                                "type": "Microsoft.Common.PasswordBox",
+                                "label": {
+                                    "password": "MySQL Root Password",
+                                    "confirmPassword": "Confirm Password"
+                                },
+                                "toolTip": "Password for MySQL root user",
+                                "constraints": {
+                                    "required": true,
+                                    "regex": "^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{8,}$",
+                                    "validationMessage": "Password must be at least 8 characters long and contain at least one letter and one number."
+                                }
+                            }
+                        ]
+                    },
+                    {
+                        "name": "locationSection",
+                        "type": "Microsoft.Common.Section",
+                        "label": "Location",
+                        "elements": [
+                            {
+                                "name": "location",
+                                "type": "Microsoft.Common.LocationSelector",
+                                "label": "Location",
+                                "toolTip": "Location for all resources",
+                                "defaultValue": "[resourceGroup().location]",
+                                "constraints": {
+                                    "allowedLocations": []
+                                }
+                            }
+                        ]
+                    }
+                ]
+            }
+        ],
+        "outputs": {
+            "environmentName": "[basics('environmentName')]",
+            "location": "[steps('infrastructure').locationSection.location]",
+            "storageAccountName": "[steps('infrastructure').storageAccountSection.storageAccountName]",
+            "mysqlRootPassword": "[steps('infrastructure').databaseSection.mysqlRootPassword]"
+        }
+    }
+}
