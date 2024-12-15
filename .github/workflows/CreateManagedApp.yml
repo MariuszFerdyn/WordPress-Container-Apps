@@ -28,7 +28,7 @@ jobs:
         $ResourceGroup="${{ vars.ResourceGroup }}"+"-rgmanagedapp"
         $location="${{ vars.Location }}"
         $Enviorment="worpress-containerapps"
-        $StorageAccountName=
+        $EntraGroup=${{ vars.EntraGroup }}
 
        
         # Login to Azure
@@ -40,10 +40,21 @@ jobs:
         # Create a new resource group for the gallery if it doesn't exist
         az group create --name $ResourceGroup --location $location
         
-        // create variable storageaccountname with random string contains 10 characters starting with managedapp
-        $StorageAccountName = "managedapp" + (Get-Random -Minimum 1000000000 -Maximum 9999999999)
-        az storage account create --name $StorageAccountName --resource-group $ResourceGroup= --location $location --sku Standard_LRS --kind StorageV2
+        // create storageaccountname with date and time with seconds with container and upload the zip file
+        $StorageAccountName = "wordpressmanagedapp" + (Get-Date).ToString("yyyyMMddHHmmss")
+        az storage account create --name "$StorageAccountName" --resource-group $ResourceGroup= --location $location --sku Standard_LRS --kind StorageV2
 
-        az storage container create --account-name $StorageAccountName --name  --public-access blob
+        az storage container create --account-name "$StorageAccountName" --name managedappcontainer --public-access blob
 
+        # Upload the app.zip file to the storage account
+        az storage blob upload --account-name "$StorageAccountName" --container-name managedappcontainer --name "app.zip" --file app.zip
 
+        # Get the storage group id and id ow role for the grupu that will be the owner of the deployed managed app. Please create this group in the EntraID first.
+        $groupid=$(az ad group show --group "$EntraGroup" --query objectId --output tsv)
+        $ownerid=$(az role definition list --name Owner --query [].name --output tsv)
+
+        # Get the uploaded app.zip file URL
+        $blob=$(az storage blob url --account-name "$StorageAccountName" --container-name managedappcontainer --name app.zip --output tsv)
+
+        # Create the managed app definition
+        az managedapp definition create --name "Wordpress in Container Apps" --location $location --resource-group "$ResourceGroup" --lock-level ReadOnly --display-name "Managed Storage Account MF" --description "Wordpress in Container Apps"  --authorizations "$principalid:$roleid" --package-file-uri "$blob"
