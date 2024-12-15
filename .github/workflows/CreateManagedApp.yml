@@ -1,4 +1,4 @@
-name: Deploy WordPress in Container Apps
+name: Create Managed App
 
 on:
   workflow_dispatch
