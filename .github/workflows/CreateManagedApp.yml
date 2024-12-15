@@ -14,10 +14,9 @@ jobs:
       run: cd $GITHUB_WORKSPACE
 
     - name: 'Zip ARM directory'
+      shell: pwsh
       run: |
-        cd ARM
-        zip -r ../app.zip .
-        cd ..
+        Cmpress-Archive -Path 'ARM' -DestinationPath app.zip -Update
         dir
 
     - name: 'Build Container Apps'
