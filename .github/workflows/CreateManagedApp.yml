@@ -16,7 +16,7 @@ jobs:
     - name: 'Zip ARM directory'
       shell: pwsh
       run: |
-        Cmpress-Archive -Path 'ARM' -DestinationPath app.zip -Update
+        Compress-Archive -Path 'ARM' -DestinationPath app.zip -Update
         dir
 
     - name: 'Build Container Apps'
