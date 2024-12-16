@@ -53,6 +53,11 @@ jobs:
 
         # Get the uploaded app.zip file URL
         $blob=$(az storage blob url --account-name "$StorageAccountName" --container-name "appcontainer" --name app.zip --output tsv)
-
+        
+        Write-Host "-----------"
+        Write-Host $groupid
+        Write-Host $ownerid
+        Write-Host $blob
+        Write-Host "-----------"
         # Create the managed app definition
         az managedapp definition create --name "WordpressInContainerApps" --location $location --resource-group "$ResourceGroup" --lock-level ReadOnly --display-name "Managed Storage Account MF" --description "Wordpress in Container Apps"  --authorizations "$principalid":"$roleid" --package-file-uri "$blob"
