@@ -39,7 +39,7 @@ jobs:
         az group create --name $ResourceGroup --location $location
         
         # Create storage account name with date and time with seconds with container and upload the zip file
-        $StorageAccountName = "wordpressmanagedapp" + (Get-Date).ToString("yyyyMMddHHmmss")
+        $StorageAccountName = "wordpress" + (Get-Date).ToString("yyyyMMddHHmmss")
         az storage account create --name "$StorageAccountName" --resource-group $ResourceGroup --location $location --sku Standard_LRS --kind StorageV2
 
         az storage container create --account-name "$StorageAccountName" --name managedappcontainer --public-access blob
