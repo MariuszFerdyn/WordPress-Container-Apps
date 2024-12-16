@@ -60,4 +60,5 @@ jobs:
         Write-Host $blob
         Write-Host "-----------"
         # Create the managed app definition
-        az managedapp definition create --name "WordpressInContainerApps" --location $location --resource-group "$ResourceGroup" --lock-level ReadOnly --display-name "Managed Storage Account MF" --description "Wordpress in Container Apps"  --authorizations "$groupid":"$ownerid" --package-file-uri "$blob"
+        $authorisations=($groupid)+":"+($ownerid)
+        az managedapp definition create --name "WordpressInContainerApps" --location $location --resource-group "$ResourceGroup" --lock-level ReadOnly --display-name "Managed Storage Account MF" --description "Wordpress in Container Apps"  --authorizations $authorisations --package-file-uri "$blob"
