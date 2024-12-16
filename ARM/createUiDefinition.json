@@ -61,30 +61,13 @@
                                 }
                             }
                         ]
-                    },
-                    {
-                        "name": "locationSection",
-                        "type": "Microsoft.Common.Section",
-                        "label": "Location",
-                        "elements": [
-                            {
-                                "name": "location",
-                                "type": "Microsoft.Common.LocationSelector",
-                                "label": "Location",
-                                "toolTip": "Location for all resources",
-                                "defaultValue": "[resourceGroup().location]",
-                                "constraints": {
-                                    "allowedLocations": []
-                                }
-                            }
-                        ]
                     }
                 ]
             }
         ],
         "outputs": {
             "environmentName": "[basics('environmentName')]",
-            "location": "[steps('infrastructure').locationSection.location]",
+            "location": "[location()]",
             "storageAccountName": "[steps('infrastructure').storageAccountSection.storageAccountName]",
             "mysqlRootPassword": "[steps('infrastructure').databaseSection.mysqlRootPassword]"
         }
