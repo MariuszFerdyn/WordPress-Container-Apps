@@ -42,10 +42,10 @@ jobs:
         $StorageAccountName = "wordpress" + (Get-Date).ToString("yyyyMMddHHmmss")
         az storage account create --name "$StorageAccountName" --resource-group $ResourceGroup --location $location --sku Standard_LRS --kind StorageV2
 
-        az storage container create --account-name "$StorageAccountName" --name managedappcontainer --public-access blob  --account-key 
+        az storage container create --account-name "$StorageAccountName" --name managedappcontainer --public-access blob  --auth-mode login
 
         # Upload the app.zip file to the storage account
-        az storage blob upload --account-name "$StorageAccountName" --container-name managedappcontainer --name "app.zip" --file app.zip  --account-key 
+        az storage blob upload --account-name "$StorageAccountName" --container-name managedappcontainer --name "app.zip" --file app.zip  --auth-mode login
 
         # Get the storage group id and id of role for the group that will be the owner of the deployed managed app. Please create this group in the EntraID first.
         $groupid=$(az ad group show --group "$EntraGroup" --query objectId --output tsv)
