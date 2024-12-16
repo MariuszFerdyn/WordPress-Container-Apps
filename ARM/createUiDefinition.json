@@ -56,8 +56,8 @@
                                 "toolTip": "Password for MySQL root user",
                                 "constraints": {
                                     "required": true,
-                                    "regex": "^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d)(?=.*[!@#$%^&*()_+\\-=\\[\\]{};':\"\\\\|,.<>\\/?]).{12,}$",
-                                    "validationMessage": "Password must be at least 12 characters long and contain at least one uppercase letter, one lowercase letter, one number, and one special character."
+                                    "regex": "^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{8,}$",
+                                    "validationMessage": "Password must be at least 8 characters long and contain at least one letter and one number."
                                 }
                             }
                         ]
