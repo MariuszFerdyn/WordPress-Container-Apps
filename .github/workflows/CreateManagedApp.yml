@@ -27,7 +27,7 @@ jobs:
         $ResourceGroup="${{ vars.ResourceGroup }}"+"-rgmanagedapp"
         $location="${{ vars.Location }}"
         $Enviorment="worpress-containerapps"
-        $EntraGroup=${{ vars.EntraGroup }}
+        $EntraGroup="${{ vars.EntraGroup }}"
 
        
         # Login to Azure
