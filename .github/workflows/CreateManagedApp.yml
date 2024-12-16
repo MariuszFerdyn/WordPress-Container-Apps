@@ -48,7 +48,7 @@ jobs:
         az storage blob upload --account-name "$StorageAccountName" --container-name "appcontainer" --name "app.zip" --file app.zip
 
         # Get the storage group id and id of role for the group that will be the owner of the deployed managed app. Please create this group in the EntraID first.
-        $groupid=$(az ad group show --group "$EntraGroup" --query objectId --output tsv)
+        $groupid=$(az ad group show --group "$EntraGroup" --query id --output tsv)
         $ownerid=$(az role definition list --name Owner --query [].name --output tsv)
 
         # Get the uploaded app.zip file URL
