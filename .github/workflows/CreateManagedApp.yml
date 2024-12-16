@@ -24,7 +24,7 @@ jobs:
       run: |
         # env
         $subscriptionId="${{ secrets.SUBSCRIPTIONID }}"
-        $ResourceGroup="${{ vars.ResourceGroup }}"+"-rgmanagedapp"
+        $ResourceGroup="${{ vars.ResourceGroup }}"+"-managedappdefinition"
         $location="${{ vars.Location }}"
         $Environment="wordpress-containerapps"
         $EntraGroup="${{ vars.EntraGroup }}"
@@ -55,4 +55,4 @@ jobs:
         $blob=$(az storage blob url --account-name "$StorageAccountName" --container-name "appcontainer" --name app.zip --output tsv)
 
         # Create the managed app definition
-        az managedapp definition create --name "Wordpress in Container Apps" --location $location --resource-group "$ResourceGroup" --lock-level ReadOnly --display-name "Managed Storage Account MF" --description "Wordpress in Container Apps"  --authorizations "$principalid":"$roleid" --package-file-uri "$blob"
+        az managedapp definition create --name "WordpressInContainerApps" --location $location --resource-group "$ResourceGroup" --lock-level ReadOnly --display-name "Managed Storage Account MF" --description "Wordpress in Container Apps"  --authorizations "$principalid":"$roleid" --package-file-uri "$blob"
