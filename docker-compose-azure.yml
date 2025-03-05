@@ -13,10 +13,11 @@ services:
        DEFAULT_OVERRIDE_PROTOCOL: http
        DEFAULT_OVERRIDE_IP: azbridge
        
-   azbridge:
-     image: mafamafa/azbridge:0.15
-     environment:
-       MYSQL_ROOT_PASSWORD: my_db_root_password
-       MYSQL_DATABASE: wordpress
-       MYSQL_USER: wordpress
-       MYSQL_PASSWORD: my_wordpress_db_password
+  azbridge:
+    image: mafamafa/azbridge:0.15
+    container_name: azbridge-proxy
+    ports:
+      - "8181:8181"
+    command: >
+      -L 0.0.0.0:8181/http:yyy 
+      -x "Endpoint=xxxzzzzyyyy"
